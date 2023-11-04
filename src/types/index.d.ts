@@ -22,3 +22,12 @@ export type TILE = {
   x: number;
   y: number;
 };
+
+export type Position = [number, number];
+
+export type ShipPosition = {
+  ship: SHIP;
+  positions: Position[];
+};
+
+export type PositionMap = Record<string, SHIP>;

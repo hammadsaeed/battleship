@@ -1,19 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DEFAULT_COLUMNS, DEFAULT_ROWS } from "../constants";
+import { DEFAULT_COLUMNS, DEFAULT_ROWS, mockData } from "../constants";
 import { RootState } from "../store";
-import { TILE } from "../types";
-import { createEmptyGrid } from "../utils";
+import { Position, PositionMap, ShipPosition, TILE, TILETYPE } from "../types";
+import { createEmptyGrid, isHit } from "../utils";
 
 export interface CounterState {
   moves: number;
   status: "idle" | "loading" | "failed";
-  data: TILE[][];
+  tiles: TILE[][];
+  shipPositions: ShipPosition[];
+  positionMap: PositionMap;
 }
 
 const initialState: CounterState = {
   moves: 0,
   status: "idle",
-  data: createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS),
+  tiles: createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS),
+  shipPositions: mockData as ShipPosition[],
+  positionMap: {} as PositionMap,
 };
 
 export const gridReducer = createSlice({
@@ -27,18 +31,32 @@ export const gridReducer = createSlice({
       state.moves += action.payload;
     },
     createNewGrid: (state) => {
-      state.data = createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS);
+      state.tiles = createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS);
     },
-    updateGrid: (state, action: PayloadAction<number[]>) => {
-      console.log(action.payload);
+    setPositions: (state, action: PayloadAction<PositionMap>) => {
+      state.positionMap = action.payload;
+    },
+    updateTile: (
+      state,
+      action: PayloadAction<{ row: number; column: number; value: TILETYPE }>
+    ) => {
+      const { row, column, value } = action.payload;
+      state.tiles[row][column].type = value;
     },
   },
 });
 
-export const { incrementMoves, incrementByAmount, createNewGrid, updateGrid } =
-  gridReducer.actions;
+export const {
+  incrementMoves,
+  incrementByAmount,
+  createNewGrid,
+  setPositions,
+  updateTile,
+} = gridReducer.actions;
 
 export const selectMoves = (state: RootState) => state.grid.moves;
-export const selectGrid = (state: RootState) => state.grid.data;
+export const selectGrid = (state: RootState) => state.grid.tiles;
+export const selectShipPositions = (state: RootState) =>
+  state.grid.shipPositions;
 
 export default gridReducer.reducer;

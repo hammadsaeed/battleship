@@ -1,4 +1,4 @@
-import { TILE, TILETYPE } from "../types/index.d";
+import { Position, ShipPosition, TILE, TILETYPE } from "../types/index.d";
 
 export const createEmptyGrid = (rows: number, columns: number) => {
   const grid: TILE[][] = [];
@@ -17,4 +17,13 @@ export const createEmptyGrid = (rows: number, columns: number) => {
   }
 
   return grid;
+};
+
+export const isHit = (position: Position, data: ShipPosition[]): boolean => {
+  return data.some((shipData) => {
+    return shipData.positions.find(
+      (shipPosition) =>
+        shipPosition[0] === position[0] && shipPosition[1] === position[1]
+    );
+  });
 };
