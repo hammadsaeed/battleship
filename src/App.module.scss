@@ -1,0 +1,14 @@
+@import "./theme/global";
+
+.app {
+  text-align: center;
+}
+
+.appContainer {
+  @include flexCenter;
+
+  background-color: $white;
+  min-height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+}

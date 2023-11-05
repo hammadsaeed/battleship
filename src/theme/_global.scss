@@ -1,0 +1,15 @@
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//colors
+$white: white;
+$black: black;
+$player2: #26bca4;
+$player1: #ffb500;
+
+$mobile: 560px;
+$tablet: 1000px;
+$desktop: 1024px;

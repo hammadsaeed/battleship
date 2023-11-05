@@ -1,31 +1,38 @@
 import { motion } from "framer-motion";
 import { shipTypes } from "../../constants";
-import { SHIP, TILETYPE } from "../../types/index.d";
-import Cross from "../Tile/cross";
+import { SHIP } from "../../types/index.d";
 import { SHIPIMAGES } from "./constants";
+import styles from "./index.module.scss";
 
-interface ShipDetails {
+import hit from "../../assets/Hit-small.png";
+import empty from "../../assets/Miss-small.png";
+
+interface IShipDetails {
   ship: SHIP;
   available: number;
 }
 
-const ShipDetails = (props: ShipDetails) => {
+const ShipDetails = (props: IShipDetails) => {
   const { ship, available } = props;
-  const { size, count } = shipTypes[ship];
+  const { size } = shipTypes[ship];
 
   return (
-    <div style={{ width: "50%", position: "relative" }} key={ship}>
+    <div className={styles.shipContainer} key={ship}>
       <motion.img
+        className={styles.shipImg}
         src={SHIPIMAGES[ship]}
-        style={{ width: "100%" }}
         alt={`ship-${ship}`}
       />
-      {[...new Array(size).fill(1)].map((_x, i) => {
-        if (available < i + 1) {
-          return <Cross type={TILETYPE.HIT} key={`${ship}-${i}`} />;
-        }
-        return <Cross type={TILETYPE.MISS} key={`${ship}-${i}`} />;
-      })}
+      <div className={styles.countContainer}>
+        {[...new Array(size).fill(1)].map((_x, i) => {
+          if (available < i + 1) {
+            return <motion.img src={hit} alt="hit" key={`${ship}-${i}`} />;
+          }
+          return (
+            <motion.img src={empty} alt="empty-hit" key={`${ship}-${i}`} />
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -1,0 +1,25 @@
+@import "../../theme/global";
+
+.endGameContainer {
+  @include flexCenter;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(7px);
+  top: 0px;
+
+  h1 {
+    font-size: 4em;
+    color: $player1;
+  }
+
+  button {
+    font-size: 2em;
+    padding: 1% 5%;
+    background-color: $player2;
+    cursor: pointer;
+  }
+}

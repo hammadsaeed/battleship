@@ -15,14 +15,14 @@ const draw = {
     };
   },
 };
-interface Cross {
+interface ICross {
   type: TILETYPE;
 }
 
-const Cross = (props: Cross) => {
+const Cross = (props: ICross) => {
   const { type } = props;
-  const color = TILETYPE.HIT === type ? "green" : "red";
-  const size = 30;
+  const color = TILETYPE.HIT === type ? "red" : "black";
+  const size = 20;
 
   const lineProps = {
     stroke: color,
@@ -34,6 +34,7 @@ const Cross = (props: Cross) => {
       animate="visible"
       width={size}
       height={size}
+      key={color}
       xmlns="http://www.w3.org/2000/svg"
     >
       <motion.line

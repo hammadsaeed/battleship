@@ -1,4 +1,4 @@
-import { Position, PositionMap, SHIP, TILETYPE } from "../../types/index.d";
+import { SHIP } from "../../types/index.d";
 
 import carrier from "../../assets/Aircraft-Shape.png";
 import battleship from "../../assets/Battleship-Shape.png";

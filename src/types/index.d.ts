@@ -6,6 +6,12 @@ export enum SHIP {
   DESTROYER = "destroyer",
 }
 
+export enum STATUS {
+  START = "start",
+  INGAME = "inGame",
+  ENDGAME = "endGame",
+}
+
 export type ShipType = {
   size: number;
   count: number;

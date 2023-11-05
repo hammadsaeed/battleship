@@ -1,10 +1,10 @@
 import Board from "./components/Board";
-import "./App.css";
+import styles from "./App.module.scss";
 
 function App() {
   return (
-    <div className="App">
-      <div className="App-header">
+    <div className={styles.app}>
+      <div className={styles.appContainer}>
         <Board />
       </div>
     </div>

@@ -1,28 +1,37 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import {
+  resetGrid,
   selectGrid,
   selectShipPositions,
-  setPositions,
+  setectStatus,
+  setStatus,
   updateTile,
 } from "../../slices/gridSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { Position, PositionMap, SHIP, TILETYPE } from "../../types/index.d";
+import {
+  Position,
+  PositionMap,
+  SHIP,
+  STATUS,
+  TILETYPE,
+} from "../../types/index.d";
+import EndGame from "../EndGame";
 import Score from "../Score";
 import Tile from "../Tile";
-
-const padding = "0.25em";
+import styles from "./index.module.scss";
 
 const Board = () => {
   const dispatch = useAppDispatch();
   const grid = useAppSelector(selectGrid);
   const shipPositions = useAppSelector(selectShipPositions);
+  const status = useAppSelector(setectStatus);
   const [positionsMap, setPositionsMap] = useState<PositionMap>({});
 
   useEffect(() => {
     const positionMap: Record<string, SHIP> = {};
 
-    if (shipPositions.length) {
+    if (shipPositions.length && status === STATUS.START) {
       for (const shipData of shipPositions) {
         for (const position of shipData.positions) {
           const positionKey = position.join(",");
@@ -31,7 +40,14 @@ const Board = () => {
       }
       setPositionsMap(positionMap);
     }
-  }, [dispatch, shipPositions]);
+  }, [dispatch, shipPositions, status]);
+
+  useEffect(() => {
+    const getLength = Object.keys(positionsMap)?.length;
+    if (status === STATUS.START && getLength) {
+      dispatch(setStatus(STATUS.INGAME));
+    }
+  }, [status, positionsMap, dispatch]);
 
   const handleClick = (position: Position) => {
     const positionKeyToFind = `${position[0]},${position[1]}`;
@@ -53,28 +69,29 @@ const Board = () => {
     );
   };
 
+  const handleRestart = () => {
+    dispatch(setStatus(STATUS.START));
+    dispatch(resetGrid());
+  };
+
   useEffect(() => {
     const getLength = Object.keys(positionsMap)?.length;
-    if (!getLength) {
-      console.log("end game");
+
+    console.log(positionsMap, status);
+    if (!getLength && status === STATUS.INGAME) {
+      dispatch(setStatus(STATUS.ENDGAME));
     }
-  }, [positionsMap]);
+  }, [positionsMap, status, dispatch]);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className={styles.container}>
+      {status === STATUS.ENDGAME && <EndGame handleRestart={handleRestart} />}
       <Score positionsMap={positionsMap} />
       <motion.div
         initial={{ opacity: 0.4 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(10, 1fr)",
-          background: "black",
-          borderRadius: "5%",
-          padding: "1%",
-          gridGap: padding,
-        }}
+        className={styles.tileGridContainer}
       >
         {grid.map((row, i) => (
           <React.Fragment key={`row-${i}`}>

@@ -1,0 +1,29 @@
+@import "../../theme/global";
+
+.container {
+  @include flexCenter;
+
+  width: 73%;
+  align-items: flex-start;
+  @media (max-width: $tablet) {
+    width: 85%;
+    flex-direction: column-reverse;
+  }
+}
+
+.tileGridContainer {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  background: $player1;
+  padding: 1%;
+  grid-gap: 0.25em;
+  justify-items: center;
+  width: 100%;
+  max-height: 75vh;
+  aspect-ratio: 1;
+
+  // @media (max-width: $mobile) {
+  //   border-radius: 2.5%;
+  // }
+}
