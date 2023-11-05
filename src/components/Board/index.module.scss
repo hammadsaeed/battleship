@@ -3,7 +3,7 @@
 .container {
   @include flexCenter;
 
-  width: 73%;
+  width: 65%;
   align-items: flex-start;
   @media (max-width: $tablet) {
     width: 85%;
@@ -17,13 +17,8 @@
   grid-template-rows: repeat(10, 1fr);
   background: $player1;
   padding: 1%;
-  grid-gap: 0.25em;
   justify-items: center;
   width: 100%;
   max-height: 75vh;
   aspect-ratio: 1;
-
-  // @media (max-width: $mobile) {
-  //   border-radius: 2.5%;
-  // }
 }

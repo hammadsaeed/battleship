@@ -1,10 +1,13 @@
 import { shipTypes } from "../../constants";
-import { PositionMap, SHIP } from "../../types/index.d";
+import { PositionMap, SHIP, Score as ScoreType } from "../../types/index.d";
 import ShipDetails from "./shipDetails";
 import styles from "./index.module.scss";
+import { useAppSelector } from "../../store/hooks";
+import { motion } from "framer-motion";
 
 interface IScore {
   positionsMap: PositionMap;
+  allScores: ScoreType;
 }
 
 const addNumberPadding = (score: number) =>
@@ -20,13 +23,18 @@ const Player = (props: { player: number; playerScore: number }) => {
   );
 };
 const Score = (props: IScore) => {
-  const { positionsMap } = props;
+  const { positionsMap, allScores } = props;
 
   return (
-    <div className={styles.scoreboardContainer}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className={styles.scoreboardContainer}
+    >
       <div className={styles.playerScoreContainer}>
-        <Player player={1} playerScore={0} />
-        <Player player={2} playerScore={0} />
+        <Player player={1} playerScore={allScores.player1} />
+        <Player player={2} playerScore={allScores.player2} />
       </div>
       <div className={styles.shipsContainer}>
         {Object.keys(shipTypes).map((ship) => {
@@ -38,7 +46,7 @@ const Score = (props: IScore) => {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

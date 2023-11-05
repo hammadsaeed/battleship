@@ -2,10 +2,7 @@
 
 .scoreboardContainer {
   @include flexCenter;
-  flex: 0 20% 40%;
   flex-direction: column;
-  border-radius: 5%;
-  padding: 1%;
   height: 100%;
 
   @media (max-width: $tablet) {

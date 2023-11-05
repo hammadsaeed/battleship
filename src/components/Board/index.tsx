@@ -27,6 +27,10 @@ const Board = () => {
   const shipPositions = useAppSelector(selectShipPositions);
   const status = useAppSelector(setectStatus);
   const [positionsMap, setPositionsMap] = useState<PositionMap>({});
+  const [score, setScore] = useState({
+    player1: 0,
+    player2: 0,
+  });
 
   useEffect(() => {
     const positionMap: Record<string, SHIP> = {};
@@ -67,6 +71,11 @@ const Board = () => {
         value,
       })
     );
+    if (value === TILETYPE.HIT) {
+      setScore((prev) => ({ ...prev, player1: prev.player1 + 1 }));
+    } else {
+      setScore((prev) => ({ ...prev, player2: prev.player2 + 1 }));
+    }
   };
 
   const handleRestart = () => {
@@ -77,7 +86,6 @@ const Board = () => {
   useEffect(() => {
     const getLength = Object.keys(positionsMap)?.length;
 
-    console.log(positionsMap, status);
     if (!getLength && status === STATUS.INGAME) {
       dispatch(setStatus(STATUS.ENDGAME));
     }
@@ -86,11 +94,11 @@ const Board = () => {
   return (
     <div className={styles.container}>
       {status === STATUS.ENDGAME && <EndGame handleRestart={handleRestart} />}
-      <Score positionsMap={positionsMap} />
+      <Score positionsMap={positionsMap} allScores={score} />
       <motion.div
-        initial={{ opacity: 0.4 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        // initial={{ opacity: 0.4 }}
+        // animate={{ opacity: 1 }}
+        // transition={{ duration: 1 }}
         className={styles.tileGridContainer}
       >
         {grid.map((row, i) => (

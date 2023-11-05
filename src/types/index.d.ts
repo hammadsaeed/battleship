@@ -36,4 +36,9 @@ export type ShipPosition = {
   positions: Position[];
 };
 
+export type Score = {
+  player1: number;
+  player2: number;
+};
+
 export type PositionMap = Record<string, SHIP>;
