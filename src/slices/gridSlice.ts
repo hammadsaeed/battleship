@@ -28,9 +28,6 @@ export const gridReducer = createSlice({
   name: "grid",
   initialState,
   reducers: {
-    createNewGrid: (state) => {
-      state.tiles = createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS);
-    },
     setPositions: (state, action: PayloadAction<PositionMap>) => {
       state.positionMap = action.payload;
     },
@@ -50,7 +47,7 @@ export const gridReducer = createSlice({
   },
 });
 
-export const { createNewGrid, setPositions, updateTile, setStatus, resetGrid } =
+export const { setPositions, updateTile, setStatus, resetGrid } =
   gridReducer.actions;
 
 export const selectGrid = (state: RootState) => state.grid.tiles;
