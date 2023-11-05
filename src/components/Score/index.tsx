@@ -2,7 +2,6 @@ import { shipTypes } from "../../constants";
 import { PositionMap, SHIP, Score as ScoreType } from "../../types/index.d";
 import ShipDetails from "./shipDetails";
 import styles from "./index.module.scss";
-import { useAppSelector } from "../../store/hooks";
 import { motion } from "framer-motion";
 
 interface IScore {
