@@ -21,16 +21,18 @@ import Score from "../Score";
 import Tile from "../Tile";
 import styles from "./index.module.scss";
 
+const defaultScore = {
+  player1: 0,
+  player2: 0,
+};
+
 const Board = () => {
   const dispatch = useAppDispatch();
   const grid = useAppSelector(selectGrid);
   const shipPositions = useAppSelector(selectShipPositions);
   const status = useAppSelector(setectStatus);
   const [positionsMap, setPositionsMap] = useState<PositionMap>({});
-  const [score, setScore] = useState({
-    player1: 0,
-    player2: 0,
-  });
+  const [score, setScore] = useState(defaultScore);
 
   useEffect(() => {
     const positionMap: Record<string, SHIP> = {};
@@ -81,6 +83,7 @@ const Board = () => {
   const handleRestart = () => {
     dispatch(setStatus(STATUS.START));
     dispatch(resetGrid());
+    setScore(defaultScore);
   };
 
   useEffect(() => {
@@ -95,12 +98,7 @@ const Board = () => {
     <div className={styles.container}>
       {status === STATUS.ENDGAME && <EndGame handleRestart={handleRestart} />}
       <Score positionsMap={positionsMap} allScores={score} />
-      <motion.div
-        // initial={{ opacity: 0.4 }}
-        // animate={{ opacity: 1 }}
-        // transition={{ duration: 1 }}
-        className={styles.tileGridContainer}
-      >
+      <motion.div className={styles.tileGridContainer}>
         {grid.map((row, i) => (
           <React.Fragment key={`row-${i}`}>
             {row.map((tile) => (
