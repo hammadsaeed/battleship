@@ -1,6 +1,6 @@
 # Battleship Game
 
-This is a Battleship game built using React, TypeScript, Redux, and React-Framer. It's a classic strategy game where you take turns trying to sink computers fleet of ships.
+This is a Battleship game built using React, TypeScript, Redux, and React-Framer. It's a classic strategy game where you take turns trying to sink computers fleet of ships. [Here](https://master--zingy-narwhal-892b91.netlify.app/) is the deployed version.
 
 ## Features
 
