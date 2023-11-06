@@ -1,40 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DEFAULT_COLUMNS, DEFAULT_ROWS, mockData } from "../constants";
 import { RootState } from "../store";
-import {
-  PositionMap,
-  ShipPosition,
-  STATUS,
-  TILE,
-  TILETYPE,
-} from "../types/index.d";
-import { createEmptyGrid } from "../utils";
+import { ShipPosition, STATUS, TILE, TILETYPE } from "../types/index.d";
+import { createEmptyGrid, generateRandomData } from "../utils";
 
 export interface CounterState {
   status: STATUS;
   tiles: TILE[][];
   shipPositions: ShipPosition[];
-  positionMap: PositionMap;
 }
 
 const initialState: CounterState = {
   status: STATUS.START,
   tiles: createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS),
   shipPositions: mockData as ShipPosition[],
-  positionMap: {} as PositionMap,
 };
 
 export const gridReducer = createSlice({
   name: "grid",
   initialState,
   reducers: {
-    setPositions: (state, action: PayloadAction<PositionMap>) => {
-      state.positionMap = action.payload;
+    resetGridRandomData: (state) => {
+      state.shipPositions = generateRandomData();
+      state.tiles = createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS);
     },
     setStatus: (state, action: PayloadAction<STATUS>) => {
       state.status = action.payload;
     },
     resetGrid: (state) => {
+      state.shipPositions = mockData as ShipPosition[];
       state.tiles = createEmptyGrid(DEFAULT_ROWS, DEFAULT_COLUMNS);
     },
     updateTile: (
@@ -47,7 +41,7 @@ export const gridReducer = createSlice({
   },
 });
 
-export const { setPositions, updateTile, setStatus, resetGrid } =
+export const { updateTile, setStatus, resetGrid, resetGridRandomData } =
   gridReducer.actions;
 
 export const selectGrid = (state: RootState) => state.grid.tiles;

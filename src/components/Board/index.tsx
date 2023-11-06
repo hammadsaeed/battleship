@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import {
   resetGrid,
+  resetGridRandomData,
   selectGrid,
   selectShipPositions,
   setectStatus,
@@ -36,7 +37,6 @@ const Board = () => {
 
   useEffect(() => {
     const positionMap: Record<string, SHIP> = {};
-
     if (shipPositions.length && status === STATUS.START) {
       for (const shipData of shipPositions) {
         for (const position of shipData.positions) {
@@ -80,10 +80,19 @@ const Board = () => {
     }
   };
 
-  const handleRestart = () => {
-    dispatch(setStatus(STATUS.START));
-    dispatch(resetGrid());
+  const reset = () => {
     setScore(defaultScore);
+    dispatch(setStatus(STATUS.START));
+  };
+
+  const handleRestart = () => {
+    dispatch(resetGrid());
+    reset();
+  };
+
+  const handleResetWithRandomData = () => {
+    dispatch(resetGridRandomData());
+    reset();
   };
 
   useEffect(() => {
@@ -96,7 +105,12 @@ const Board = () => {
 
   return (
     <div className={styles.container}>
-      {status === STATUS.ENDGAME && <EndGame handleRestart={handleRestart} />}
+      {status === STATUS.ENDGAME && (
+        <EndGame
+          handleRestart={handleRestart}
+          handleResetWithRandomData={handleResetWithRandomData}
+        />
+      )}
       <Score positionsMap={positionsMap} allScores={score} />
       <motion.div className={styles.tileGridContainer}>
         {grid.map((row, i) => (
