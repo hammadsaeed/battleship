@@ -7,10 +7,12 @@ import {
   selectShipPositions,
   setectStatus,
   setStatus,
+  setWinner,
   updateTile,
 } from "../../slices/gridSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
+  PlAYERS,
   Position,
   PositionMap,
   SHIP,
@@ -99,9 +101,17 @@ const Board = () => {
     const getLength = Object.keys(positionsMap)?.length;
 
     if (!getLength && status === STATUS.INGAME) {
+      dispatch(setWinner(PlAYERS.PLAYER));
       dispatch(setStatus(STATUS.ENDGAME));
     }
   }, [positionsMap, status, dispatch]);
+
+  useEffect(() => {
+    if (score.player2 > 40) {
+      dispatch(setWinner(PlAYERS.COMPUTER));
+      dispatch(setStatus(STATUS.ENDGAME));
+    }
+  }, [score]);
 
   return (
     <div className={styles.container}>

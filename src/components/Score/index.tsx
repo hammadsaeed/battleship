@@ -21,6 +21,7 @@ const Player = (props: { player: number; playerScore: number }) => {
     </div>
   );
 };
+
 const Score = (props: IScore) => {
   const { positionsMap, allScores } = props;
 

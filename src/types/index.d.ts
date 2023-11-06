@@ -23,6 +23,11 @@ export enum TILETYPE {
   EMPTY = "empty",
 }
 
+export enum PlAYERS {
+  PLAYER = "Player",
+  COMPUTER = "Computer",
+}
+
 export type TILE = {
   type: TILETYPE;
   x: number;
